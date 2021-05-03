@@ -1,0 +1,31 @@
+#!pip install scikit learn
+from pandas import read_csv
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC #import thte classifier which we are going to use
+
+
+from google.colab import files
+Uploaded=files.upload()
+
+
+filename= "Energy Meter.csv"
+names= ['Voltage', 'Current', 'Power', 'class']#assigning names to the columns
+dataset= read_csv(filename, names=names)
+
+
+array=dataset.values 
+X= array[:,0:3] #input first three rows
+y=array[:,3] #output last row
+X_train, X_validation, Y_train, Y_validation= train_test_split(X, y, test_size=0.20, random_state=1)
+
+
+model=SVC(gamma='auto') #gamma is a parameter for non linear hyperplane
+
+model.fit(X_train, Y_train)# training a data
+
+result=model.score(X_validation, Y_validation)
+print(result)
+
+value=[[212.7315,0.84753,180.2963282]]
+predictions=model.predict(value)
+print(predictions[0])
